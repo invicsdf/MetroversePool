@@ -1,0 +1,119 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Metroverse Pool</title>
+        <style>
+            .tableau {
+                position: absolute;
+                left: 20%;
+                top: 10%;
+            }
+
+            table {
+                border-collapse: separate;
+                border-spacing: 30px 0;
+            }
+
+            .filtre {
+                position: absolute;
+                left: 50px;
+                top: 50px;
+            }
+/*             td {
+                padding: 10px 0;
+            }
+ */      
+        </style>
+        <script>
+            function envoiFiltre()
+            {
+                actifGenesis = document.getElementById("genesis").checked
+                actifBlackout = document.getElementById("blackO").checked
+                ptfBase =  document.getElementById('PtfBase').value
+                nbreBlock = document.getElementById('nbreBlock').value
+/*                 console.log(ptfBase)
+                console.log(nbreBlock)
+ */                //console.log(actifGenesis)
+                actifGenesis == false ? actifGenesis = 0 : actifGenesis = 1
+                actifBlackout == false ? actifBlackout = 0 : actifBlackout = 1
+                ptfBase == 'Ptf Khalid' ? ptfBase = 1 : ptfBase = 0
+                //console.log(actifGenesis)
+                //console.log(actifBlackout)
+                //alert("localhost:3000/resultat?ptf=" + ptfBase + "&genesis=" + actifGenesis + "&blackout=" + actifBlackout + "&nbBlock=" + nbreBlock)
+                //window.location.href = "http://127.0.0.1:3000/resultat?ptf=" + ptfBase + "&genesis=" + actifGenesis + "&blackout=" + actifBlackout + "&nbBlock=" + nbreBlock
+                //location.replace("https://www.w3schools.com")
+                //http://localhost:3000/resultat?ptf=1&genesis=1&blackout=1&nbBlock=5
+
+                var xhttp = new XMLHttpRequest();
+                xhttp.open("GET", "/resultat?ptf=" + ptfBase + "&genesis=" + actifGenesis + "&blackout=" + actifBlackout + "&nbBlock=" + nbreBlock, false);
+                xhttp.onreadystatechange = function()
+                {
+                    reponse = this.responseText
+                    console.log(reponse)
+                    document.getElementById("tab").innerHTML = reponse
+                }
+                xhttp.send();
+             }
+        </script>
+           
+    </head>
+
+    <body>
+        <div class="filtre">
+            <fieldset style="width:10%">
+                <legend>Portefeuille de base :</legend>
+                <input type=text list=browsers id="PtfBase">
+                    <datalist id=browsers >
+                        <option> Ptf vide
+                        <option> Ptf Khalid
+                    </datalist>
+            </fieldset>
+            <div>
+                <input type="checkbox" id="genesis" name="block">
+                <label for="genesis">Génesis</label>
+            </div>
+        
+            <div>
+                <input type="checkbox" id="blackO" name="block">
+                <label for="blackO">Black out</label>
+            </div>
+            <br>
+            <label for="nbB">nb block</label>          
+            <input type="text" name="nbB" id="nbreBlock">
+            <br>
+            <button type="button" onclick="envoiFiltre()">Optimiser</button>
+        </div>
+        <div class="tableau" id="tab">
+<!--             <table>
+                <tr>
+                    <th>Bloc 1</th>
+                    <th>Bloc 2</th>
+                    <th>Bloc 3</th>
+                    <th>Bloc 4</th>
+                    <th>Bloc 5</th>
+                    <th>Prix total boosts</th>
+                    <th>Score total boosts</th>
+                    <th>Score initial total ptf</th>
+                    <th>Taux total ptf</th>
+                    <th>Score global ptf</th>
+                    <th>RoI</th>
+                </tr> 
+                <tr>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>4</td>
+                    <td>5</td>
+                    <td>6</td>
+                    <td>7</td>
+                    <td>7</td>
+                    <td>7</td>
+                    <td>7</td>
+                    <td>7</td>
+                </tr> 
+            </table>
+ -->        
+
+        </div>
+    </body>
+</html>
