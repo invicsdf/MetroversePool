@@ -1,0 +1,57 @@
+{
+    "index" : 
+            {
+                "Hospital"                      : "Safety", 
+                "Police Station"                : "Safety",
+                "Fire Station"                  : "Safety",
+                "School"                        : "Education",
+                "University"                    : "Education",
+                "Town Hall"                     : "Education",
+                "METPOT CASINO"                 : "Entertainment",
+                "Wildlife Waystation"           : "Entertainment",
+                "Circ-o-verse"                  : "Entertainment",
+                "Bus Stop"                      : "Transport",
+                "Subway Station"                : "Transport",
+                "Metaxi Station"                : "Transport",
+                "Football Stadium"              : "Sports",
+                "Baseball Stadium"              : "Sports",
+                "Soccer Stadium"                : "Sports",
+                "Wind Farm"                     : "Energy",
+                "Solar Farm"                    : "Energy",
+                "Nuclear Power Plant"           : "Energy",
+                "Metroverse Theatre"            : "Cultural",
+                "Metroverse Museum"             : "Cultural",
+                "Metcinema"                     : "Cultural",
+                "Cylinder Mansion"              : "Mansion",
+                "Organic Mansion"               : "Mansion",
+                "Winter Mega-Mansion"           : "Mansion",
+                "Rocket Launch Site"            : "Tech",
+                "Crypto Mining Facility"        : "Tech",
+                "UnbelieVALTable"               : "Tech",
+                "Cemetery"                      : "Odds",
+                "ETHRASH"                       : "Odds",
+                "Sewage Treatment"              : "Odds",
+                "Neo Tokyo Throne"              : "Partner", 
+                "EtherOrcs Battle Arena"        : "Partner",
+                "Karafuru Vending Machine"      : "Partner",
+                "Double Rail"                   : "Railway",
+                "Double River"                  : "River"
+            },
+    "boost" :
+            {
+                "Safety": {"Hospital" : 0, "Police Station" : 0, "Fire Station": 0, "baseBoost" : 5},
+                "Education" : {"School" : 0, "University" : 0, "Town Hall" : 0, "baseBoost" : 6}, 
+                "Entertainment" : {"METPOT CASINO" : 0, "Wildlife Waystation" : 0, "Circ-o-verse" : 0, "baseBoost" : 6},
+                "Transport" : {"Bus Stop" : 0, "Subway Station" : 0, "Metaxi Station" : 0, "baseBoost" : 5}, 
+                "Sports" : {"Football Stadium" : 0, "Baseball Stadium" : 0, "Soccer Stadium" : 0, "baseBoost" : 10}, 
+                "Energy" : {"Wind Farm" : 0, "Solar Farm" : 0, "Nuclear Power Plant" : 0, "baseBoost" : 8}, 
+                "Cultural" : {"Metroverse Theatre" : 0, "Metroverse Museum" : 0, "Metcinema" : 0, "baseBoost" : 5}, 
+                "Mansion" : {"Cylinder Mansion" : 0, "Organic Mansion" : 0, "Winter Mega-Mansion" : 0, "baseBoost" : 6}, 
+                "Tech" : {"Rocket Launch Site" : 0, "Crypto Mining Facility" : 0, "UnbelieVALTable" : 0, "baseBoost" : 8}, 
+                "Odds" : {"Cemetery" : 0, "ETHRASH" : 0, "Sewage Treatment" : 0, "baseBoost" : 6}, 
+                "Partner" : {"Neo Tokyo Throne" : 0, "EtherOrcs Battle Arena" : 0, "Karafuru Vending Machine" : 0, "baseBoost" : 8}, 
+                "Railway" : {"Double Rail" : 0, "baseBoost" : 4},
+                "River" : {"Double River" : 0, "baseBoost" : 8}
+                
+            }
+}
