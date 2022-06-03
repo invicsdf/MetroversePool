@@ -10,7 +10,7 @@ const fs= require('fs');
 } */
 function scrappingBlockListedGenesis(){
     url = "https://opensea.io/collection/metroverse-genesis?search[sortAscending]=true&search[sortBy]=PRICE&search[toggles][0]=BUY_NOW"
-    nomFichier = "blockListed_genesis_vf2.json"
+    nomFichier = "blockListed_genesis_vf.json"
     var spawn = require("child_process").spawn;
 	var process = spawn('node',["./TutoBlockListingV2.js", url, nomFichier]);
 	p1 = new Promise((resolve, reject) => 
@@ -25,7 +25,7 @@ function scrappingBlockListedGenesis(){
 
 function scrappingBlockListedBlackout(){
     url = "https://opensea.io/collection/metroverse-blackout?search[sortAscending]=true&search[sortBy]=PRICE&search[toggles][0]=BUY_NOW"
-    nomFichier = "blockListed_blackout_vf2.json"
+    nomFichier = "blockListed_blackout_vf.json"
     var spawn = require("child_process").spawn;
 	var process = spawn('node',["./TutoBlockListingV2.js", url, nomFichier]);
 	p2 = new Promise((resolve, reject) => 

@@ -1,9 +1,9 @@
 import json
-from os import remove
+#from os import remove
 import sys
 import copy
 import itertools
-from tkinter import N
+#from tkinter import N
 import requests
 from operator import itemgetter
 from libMetroverse import lireBlocAVendre

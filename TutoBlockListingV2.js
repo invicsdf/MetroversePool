@@ -5,7 +5,7 @@ const fs= require('fs');
 
 async function creerDriver(){
     
-    return bld.forBrowser("MicrosoftEdge").build()
+    return bld.forBrowser("firefox").build()
 }
 
 function ouvrirPageHtml(){
