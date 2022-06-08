@@ -1,9 +1,7 @@
 import json
-#from os import remove
 import sys
 import copy
 import itertools
-#from tkinter import N
 import requests
 from operator import itemgetter
 from libMetroverse import lireBlocAVendre
@@ -125,7 +123,7 @@ def intervalleRechercheMeilleurBlock():
     actifGenesis = int(sys.argv[2])
     actifBlackout = int(sys.argv[3])
     """ actifGenesis = 1
-    actifBlackout = 1 """
+    actifBlackout = 0 """
     if actifGenesis == 0 and actifBlackout == 1:
         borneInf = 10001
         borneSup = 20000
@@ -146,6 +144,8 @@ def meilleurPortefeuille():
     meilleurKey = ()
     prixTotal = 0
     scoreTotal = 0
+    gainTotal = []
+
     for i in range(1, nbBlock + 1):
         gain = []
         for k, v in donneeBlocAVendre.items():
@@ -164,29 +164,26 @@ def meilleurPortefeuille():
         meilleurKey = meilleurKey + (gainSorted[0][0],)
         prixTotal = prixTotal + float(gainSorted[0][1])
         scoreTotal = scoreTotal + float(gainSorted[0][2])
-        
+        scoreInitialFinal = gainSorted[0][3]
+        tauxGlobalFinal = gainSorted[0][4]
+        gainGlobalFinal = gainSorted[0][5]
+        RoIFinal = gainSorted[0][6]
+
         donneePtfMeilleurBlock[meilleurKey[i - 1]] = donneeBlocAVendre[meilleurKey[i - 1]] 
         #print(donneePtfMeilleurBlock)
 
         del donneeBlocAVendre[meilleurKey[i - 1]]
-
-    return donneePtfMeilleurBlock, meilleurKey, prixTotal, scoreTotal
-
-def resultatOptimisation():
-    gainTotal = []
-    PrixETHMET = scrappingPrixETHMET()
-    (donneePtfMeilleurBlock, meilleurKey, prixTotalAchatBoost, scoreTotalAchatBoost) = meilleurPortefeuille()
-    (scoreInitialTotal, tauxGlobalTotal, gainGlobalTotal, prixTotalPtf) = calculerGain(donneePtfMeilleurBlock)
-    RoIFinal = prixTotalPtf/(PrixETHMET * 30.5 * gainGlobalTotal)
-    meilleurResultat = meilleurKey + (prixTotalAchatBoost, scoreTotalAchatBoost, scoreInitialTotal,  tauxGlobalTotal, gainGlobalTotal, round(RoIFinal, 3))
+    meilleurResultat = meilleurKey + (prixTotal, scoreTotal, scoreInitialFinal, tauxGlobalFinal, gainGlobalFinal, round(RoIFinal, 3))
     gainTotal.append(meilleurResultat)
 
     return gainTotal
 
 def remplirHtml():
+    nbBlock = 1
     html = "<table>\n"
     html += "<tr>\n"
     for i in range(1, int(sys.argv[4]) + 1):
+    #for i in range(1, int(nbBlock) + 1):
         html += "<th>" + 'Bloc ' + str(i)  + "</th>\n"
     
     html += "<th>" + 'Prix total boosts' + "</th>\n"
@@ -197,12 +194,17 @@ def remplirHtml():
     html += "<th>" + 'RoI' + "</th>\n"
     html += "</tr>\n" 
 
-    result = resultatOptimisation()
+    if int(sys.argv[5]) == 0:
+        result = meilleurPortefeuille()
+    else:
+        result = resultatOptimisationComb()
     
     html += "<tr>\n"
 
     for i in range(0, int(sys.argv[4])):
+    #for i in range(0, int(nbBlock)):
         html += "<td>" + result[0][i] + "</td>\n"
+
     
     html += "<td>" + str(result[0][int(sys.argv[4])]) + "</td>\n"
     html += "<td>" + str(result[0][int(sys.argv[4]) + 1]) + "</td>\n"
@@ -214,17 +216,26 @@ def remplirHtml():
     html += "</table>\n"
 
     return html
+    
+    """ html += "<td>" + str(result[0][int(nbBlock)]) + "</td>\n"
+    html += "<td>" + str(result[0][int(nbBlock) + 1]) + "</td>\n"
+    html += "<td>" + str(result[0][int(nbBlock) + 2]) + "</td>\n"
+    html += "<td>" + str(result[0][int(nbBlock) + 3]) + "</td>\n"
+    html += "<td>" + str(result[0][int(nbBlock) + 4]) + "</td>\n"
+    html += "<td>" + str(result[0][int(nbBlock) + 5]) + "</td>\n" """
+   
 ################################################   Calculs combinaisons plus justes     ########################################################
             
 def listeCombinaison():
-    #nbreBlock = sys.argv[4]
-    nbreBlock = 3
+    nbBlock = int(sys.argv[4])
+    listeTrie = []
+    #nbBlock = 1
     (borneInf, borneSup) = intervalleRechercheMeilleurBlock()
     listeKey = list(donneeBlocAVendre.keys())
     for i in listeKey:
-        if not borneInf <= int(i) <= borneSup:   
-            listeKey.remove(i)
-    combinaison = list(combinations(listeKey, nbreBlock))
+        if borneInf <= int(i) <= borneSup:   
+            listeTrie.append(i)
+    combinaison = list(combinations(listeTrie, nbBlock))
 
     return combinaison
 
@@ -238,8 +249,8 @@ def meilleurPtfCombinaison():
     iActuel = 0
     #print(len(combinaison))
     for i in range(0, len(combinaison)):
-        if i % 100000 == 0:
-            print(i)
+        """ if i % 100000 == 0:
+            print(i) """
         donneePtfCopie = copy.copy(donneePortefeuille)
         listeBoost  = copy.deepcopy(donneeBoost)
         for j in combinaison[i]:
@@ -250,11 +261,11 @@ def meilleurPtfCombinaison():
             RoIMaxPrecedent = RoIActuel
             iActuel = i
 
-    return RoIActuel, combinaison[iActuel]
+    return RoIMaxPrecedent, combinaison[iActuel]
 
 
 def resultatOptimisationComb():
-    (RoIActuel, tupleKey) = meilleurPtfCombinaison()
+    (RoIMaxPrecedent, tupleKey) = meilleurPtfCombinaison()
     gainTotalComb = []
     PrixETHMET = scrappingPrixETHMET()
     donneePtfCopie = copy.copy(donneePortefeuille)
@@ -303,35 +314,41 @@ completerBloc(donneeBlocAVendre)
 completerBloc(donneePortefeuille)
 
 print(remplirHtml())
+##Avec PrixETHMET = 3.5378393381089585e-06
+##Avec nombre total de blocs = 358
 
 
 #print(resultatOptimisation())
-#Avec donneePortefeuille  = lirePortefeuille('ptfBlocMetroverse.json')
-#nbreBlock = 1 [('18527', 0.6213, 330.0, 2529, 26.25, 3193, 48.775)]
-#nbreBlock = 2 [('18527', '16469', 0.9102999999999999, 627.0, 2826, 26.25, 3568, 44.545)]
-#nbreBlock = 3 [('18527', '16469', '15661', 1.2092999999999998, 915.0, 3114, 26.25, 3931, 41.33)]
-#nbreBlock = 4 [('18527', '16469', '15661', '16300', 1.4583, 1184.0, 3383, 26.25, 4271, 38.493)]
-#nbreBlock = 5 [('18527', '16469', '15661', '16300', '19737', 1.7583, 1482.0, 3681, 26.25, 4647, 36.136)]
-
-#Avec donneePortefeuille  = {}
-#nbreBlock = 1 [('14817', 0.245, 282.0, 282, 0, 282, 10.28)]
-#nbreBlock = 2 [('14817', '16300', 0.494, 551.0, 551, 0, 551, 10.634)]
-#nbreBlock = 3 [('14817', '16300', '19907', 0.739, 814.0, 814, 5, 855, 10.252)]
-#nbreBlock = 4 [('14817', '16300', '19907', '15304', 0.988, 1082.0, 1082, 7.5, 1163, 10.046)]
-#nbreBlock = 5 [('14817', '16300', '19907', '15304', '15661', 1.287, 1370.0, 1370, 12.5, 1541, 9.876)]
-
-
-
 #print(resultatOptimisationComb())
 #Avec donneePortefeuille  = lirePortefeuille('ptfBlocMetroverse.json')
-#nbreBlock = 1 [('18527', 0.6213, 330.0, 2529, 22.5, 3098, 50.271)]
-#nbreBlock = 2 [('1946', '10194', 1.0, 647.0, 2846, 28.0, 3643, 43.625)]
-#nbreBlock = 3 [('1946', '10194', '16469', 1.289, 944.0, 3143, 30.5, 4102, 39.57)]
+#Avec actifGenesis = 1, actifBlackout = 0
+#nbreBlock = 1 
+#nbreBlock = 2 
+#nbreBlock = 3 
+#nbreBlock = 4 
+#nbreBlock = 5 
 
 #Avec donneePortefeuille  = {}
-#nbreBlock = 1 [('14817', 0.245, 282.0, 282, 0, 282, 10.234)]
-#nbreBlock = 2 [('16300', '19907', 0.494, 532.0, 532, 5, 559, 10.443)]
-#nbreBlock = 3 [('14817', '16300', '19907', 0.739, 814.0, 814, 5, 855, 10.212)]
+#Avec actifGenesis = 1, actifBlackout = 0
+#nbreBlock = 1 
+#nbreBlock = 2 
+#nbreBlock = 3 
+#nbreBlock = 4 
+#nbreBlock = 5 
 
+#Avec donneePortefeuille  = lirePortefeuille('ptfBlocMetroverse.json')
+#Avec actifGenesis = 0, actifBlackout = 1
+#nbreBlock = 1 
+#nbreBlock = 2 
+#nbreBlock = 3 
+#nbreBlock = 4 
+#nbreBlock = 5 
 
+#Avec donneePortefeuille  = {}
+#Avec actifGenesis = 0, actifBlackout = 1
+#nbreBlock = 1 
+#nbreBlock = 2 
+#nbreBlock = 3 
+#nbreBlock = 4 
+#nbreBlock = 5 
 
