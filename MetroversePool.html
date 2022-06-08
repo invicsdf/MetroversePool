@@ -33,12 +33,15 @@
                 actifBlackout = document.getElementById("blackO").checked
                 ptfBase =  document.getElementById('PtfBase').value
                 nbreBlock = document.getElementById('nbreBlock').value
+                methode = document.getElementById('methode').value
 /*                 console.log(ptfBase)
                 console.log(nbreBlock)
  */                //console.log(actifGenesis)
                 actifGenesis == false ? actifGenesis = 0 : actifGenesis = 1
                 actifBlackout == false ? actifBlackout = 0 : actifBlackout = 1
                 ptfBase == 'Ptf Khalid' ? ptfBase = 1 : ptfBase = 0
+                methode == 'Empilements' ? methode = 0 : methode = 1
+                console.log(methode)
                 //console.log(actifGenesis)
                 //console.log(actifBlackout)
                 //alert("localhost:3000/resultat?ptf=" + ptfBase + "&genesis=" + actifGenesis + "&blackout=" + actifBlackout + "&nbBlock=" + nbreBlock)
@@ -47,7 +50,7 @@
                 //http://localhost:3000/resultat?ptf=1&genesis=1&blackout=1&nbBlock=5
 
                 var xhttp = new XMLHttpRequest();
-                xhttp.open("GET", "/resultat?ptf=" + ptfBase + "&genesis=" + actifGenesis + "&blackout=" + actifBlackout + "&nbBlock=" + nbreBlock, true);
+                xhttp.open("GET", "/resultat?ptf=" + ptfBase + "&genesis=" + actifGenesis + "&blackout=" + actifBlackout + "&nbBlock=" + nbreBlock + "&methode=" + methode, true);
                 xhttp.onreadystatechange = function()
                 {
                     reponse = this.responseText
@@ -82,6 +85,14 @@
             <br>
             <label for="nbB">nb block</label>          
             <input type="text" name="nbB" id="nbreBlock">
+            <br>
+            <br>
+            <label for="methode">Choisir une méthode: </label>
+            <select name="methode" id="methode">
+                <option value="">--Choisir méthode--</option>
+                <option>Empilements</option>
+                <option>Force brute</option>
+            </select>
             <br>
             <button type="button" onclick="envoiFiltre()">Optimiser</button>
         </div>
