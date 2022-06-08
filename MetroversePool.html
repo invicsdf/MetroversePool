@@ -1,6 +1,8 @@
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Metroverse Pool</title>
         <style>
             .tableau {
@@ -45,7 +47,7 @@
                 //http://localhost:3000/resultat?ptf=1&genesis=1&blackout=1&nbBlock=5
 
                 var xhttp = new XMLHttpRequest();
-                xhttp.open("GET", "/resultat?ptf=" + ptfBase + "&genesis=" + actifGenesis + "&blackout=" + actifBlackout + "&nbBlock=" + nbreBlock, false);
+                xhttp.open("GET", "/resultat?ptf=" + ptfBase + "&genesis=" + actifGenesis + "&blackout=" + actifBlackout + "&nbBlock=" + nbreBlock, true);
                 xhttp.onreadystatechange = function()
                 {
                     reponse = this.responseText
@@ -84,35 +86,6 @@
             <button type="button" onclick="envoiFiltre()">Optimiser</button>
         </div>
         <div class="tableau" id="tab">
-<!--             <table>
-                <tr>
-                    <th>Bloc 1</th>
-                    <th>Bloc 2</th>
-                    <th>Bloc 3</th>
-                    <th>Bloc 4</th>
-                    <th>Bloc 5</th>
-                    <th>Prix total boosts</th>
-                    <th>Score total boosts</th>
-                    <th>Score initial total ptf</th>
-                    <th>Taux total ptf</th>
-                    <th>Score global ptf</th>
-                    <th>RoI</th>
-                </tr> 
-                <tr>
-                    <td>1</td>
-                    <td>2</td>
-                    <td>3</td>
-                    <td>4</td>
-                    <td>5</td>
-                    <td>6</td>
-                    <td>7</td>
-                    <td>7</td>
-                    <td>7</td>
-                    <td>7</td>
-                    <td>7</td>
-                </tr> 
-            </table>
- -->        
 
         </div>
     </body>
