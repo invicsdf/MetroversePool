@@ -92,7 +92,7 @@ app.get('/resultat', function(req,res)
     methode = req.query.methode
     console.log(contenuPtf, actifGenesis, actifBlackout, nbBlock, methode)
     var spawn = require("child_process").spawn;
-	var process = spawn('python',["./calculs_blocks_metroverse_web.py",	contenuPtf, actifGenesis, actifBlackout, nbBlock, methode]);
+	var process = spawn('python3',["./calculs_blocks_metroverse_web.py",	contenuPtf, actifGenesis, actifBlackout, nbBlock, methode]);
 	process.stdout.on('data', function(data) {
         console.log(data.toString())
 		res.send(data.toString());
