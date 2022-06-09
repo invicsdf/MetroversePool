@@ -59,7 +59,7 @@ function fusionBlockListed()
             {
                 if (err) 
                         console.log('erreur dans le writefile', err);
-                else    console.log("JSON data is saved.");
+                else    console.log("JSON fusion data is saved.");
             });
         }
     }).catch((err) => console.log(err))
