@@ -53,8 +53,8 @@ function fusionBlockListed()
             console.log('bien sauvegardés')
             const BlockListedGenesis = require('./blockListed_genesis_vf.json') 
             const BlockListedBlackout = require('./blockListed_blackout_vf.json') 
-            fusionBlockListed= Object.assign({}, BlockListedGenesis, BlockListedBlackout);
-            const data = JSON.stringify(fusionBlockListed);
+            fusionBlockListe= Object.assign({}, BlockListedGenesis, BlockListedBlackout);
+            const data = JSON.stringify(fusionBlockListe);
             fs.writeFile('fusionBlockListed.json', data, (err) => 
             {
                 if (err) 
